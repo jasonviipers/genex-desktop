@@ -22,7 +22,7 @@ unchanged. Where it disagrees with this preface, this preface wins.
 - Other commands map onto Studio tools as the `genex` skill describes
   (`genex__skill {"name":"genex"}`).
 
-<!-- upstream @genex-ai/cli-demo/templates/skills/genex-monetization/SKILL.md v1.36.9 sha256 24b4b798c597ce452af4bfa394cd4ca655710750d9f6e749c2b4ed8dd540e844 -->
+<!-- upstream @genex-ai/cli-demo/templates/skills/genex-monetization/SKILL.md v1.36.15 sha256 8fadc7b7500c8e68b8e766c526e9dd33e76e64a0d4d972cc57d5278eabdf6abd -->
 ---
 name: genex-monetization
 description: Add dynamic coin payments for game goods or actions — platform consent, recoverable receipts, and idempotent delivery without a required product catalog. Use when the player asks to sell things, add a shop, monetize, or make the game earn. Carries the hard rules: no paid randomness, no gambling in coin, no donation mechanics, and a real-money price beside every coin price.
@@ -281,7 +281,16 @@ npx genex shop test <sku-id>  # owner-only free entitlement; no coin moves
 the grid printed by `genex shop list`. Render `name`, `iconUrl`, `priceCoins`
 and `priceDisplayUsdCents`; use an image of the actual item for its icon.
 `genex shop set` edits a listing and `genex shop remove` retires it without
-removing a buyer's ownership.
+removing a buyer's ownership. When the Genex store is on, `genex shop add`
+makes a draft: `getShop()` leaves it out of the live game and `buy()` cannot
+sell it until the person puts it on sale. Add `--json` so the Genex app shows
+its **Put on sale** card, and never put it on sale yourself. Before the game
+is published, items can be made all the same: they wait as local drafts and go
+up as drafts with `genex publish`; still, only the person puts one on sale.
+
+Items for the Genex store — a picture, a description, a draft the person puts
+on sale, items other games can use, and adding another creator's item — are
+`$genex-items`. Its rules add to these; they never replace them.
 
 Re-list `getEntitlements({ excludeConsumed: true })` on boot. Branch on
 `skuType` (`consumable`/`durable`), never `type` (purchase/gift/test/free).
